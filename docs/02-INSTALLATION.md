@@ -1,5 +1,15 @@
 # 🔧 Інструкція встановлення
 
+## Версіонування проекту
+
+Проект дотримується [Semantic Versioning](https://semver.org/lang/uk/).
+
+**Поточна версія**: **0.2.0** (27 січня 2026)
+
+- Версія відображається на UI у вигляді badge поруч із заголовком
+- Повна історія змін: див. [CHANGELOG.md](../CHANGELOG.md)
+- Версійність можна перевірити в `src/components/TopInfo/index.tsx` (константа `APP_VERSION`)
+
 ## Передумови
 
 Перед тим як почати, переконайтесь, що у вас встановлено наступне:
@@ -24,29 +34,23 @@ git --version     # будь-яка сучасна версія
 ### Крок 1: Клонування репозиторію
 
 ```bash
-# Клонуємо проект з GitHub
-git clone https://github.com/victorchei/pdf-validator.git
+# Клонуємо проект з GitHub разом із submodules
+git clone --recurse-submodules https://github.com/victorchei/pdf-validator.git
 
 # Переходимо в папку проекту
 cd pdf-validator
 ```
 
-### Крок 2: Встановлення зовнішнього валідатора
+> **Примітка**: Прапорець `--recurse-submodules` автоматично клонує модуль валідатора (`src/validator`) з приватного репозиторію `victorchei/validator`. Для цього потрібен доступ до цього репо.
 
-Проект потребує модуля валідатора, який повинен бути розташований окремо:
+### Крок 2: Якщо клонували без `--recurse-submodules`
 
 ```bash
-# Переходимо в папку src
-cd src
-
-# Клонуємо репозиторій валідатора
-git clone <URL-репозиторію-валідатора> validator
-
-# Повертаємось в корінь проекту
-cd ..
+# Ініціалізуємо та завантажуємо submodule вручну
+git submodule update --init --recursive
 ```
 
-**Важливо**: Папка `validator` повинна містити код, який експортує функцію `check()` та необхідні типи.
+**Важливо**: Папка `src/validator` — це git submodule, який містить код з функцією `check()` та необхідні типи. Вона повинна бути заповнена перед запуском проекту.
 
 ### Крок 3: Встановлення залежностей
 
@@ -75,7 +79,7 @@ npm i
 npm start
 ```
 
-- **URL**: http://localhost:3000
+- **URL**: <http://localhost:3000>
 - **Автоматичне перезавантаження**: Так, при змінах в коді
 - **Hot Module Replacement**: Доступно для швидкої розробки
 
@@ -124,7 +128,7 @@ pdf-validator/
 │   │   └── groupsConfig.ts
 │   ├── helpers/                # Допоміжні функції
 │   ├── style/                  # CSS стилі
-│   ├── validator/              # 🔴 ПОТРІБНО ДОДАТИ (зовнішній модуль)
+│   ├── validator/              # 🔗 Git submodule (victorchei/validator)
 │   └── index.tsx               # Точка входу
 ├── .github/
 │   └── workflows/
@@ -155,13 +159,14 @@ npm install --legacy-peer-deps
 ### Помилка: "Cannot find module 'src/validator'"
 
 ```bash
-# Переконайтесь, що папка validator існує в src/
-ls -la src/validator/
+# Переконайтесь, що submodule ініціалізований
+git submodule status
 
-# Якщо не існує, клонуйте репозиторій валідатора
-cd src
-git clone <URL-валідатора> validator
-cd ..
+# Якщо показує '-' перед хешем — submodule не завантажений
+git submodule update --init --recursive
+
+# Перевірте що папка validator не порожня
+ls -la src/validator/
 ```
 
 ### Помилка при запуску: "Port 3000 is already in use"
