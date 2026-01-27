@@ -1,10 +1,10 @@
 # Сайт доступний за посиланням
-https://victorchei.github.io/test-ui/
+https://victorchei.github.io/pdf-validator/
 
-Розробка має вестися у вітці develop пісдя чого мержитися в master і там має виконуватися команда deploy(описано нижче)
-!!! не потрбіно мержити з мастер у девелоп !!!
+Розробка має вестися у вітці develop після чого мержитися в master і там має виконуватися команда deploy(описано нижче)
+!!! не потрібно мержити з master у develop !!!
 
-1. склонити проект https://github.com/victorchei/diploma.git
+1. склонити проект https://github.com/victorchei/pdf-validator.git
 2. потрібно в 'src' створити папочку 'validator' - і туди покласти репозиторій дипломного проекту
 3. встановити залежності `npm i`
 
@@ -18,7 +18,7 @@ https://victorchei.github.io/test-ui/
 ## Запуск проекту
 Має бути налаштовані "npm": ">=8.0.0", "node": ">=18.0.0"
 
-1. склонити проект https://github.com/victorchei/diploma.git
+1. склонити проект https://github.com/victorchei/pdf-validator.git
 2. потрібно в 'src' створити папочку 'validator' - і туди покласти репозиторій дипломного проекту
 3. встановити залежності `npm i`
 
