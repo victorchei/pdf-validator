@@ -1,0 +1,3 @@
+[submodule "src/validator"]
+	path = src/validator
+	url = https://github.com/victorchei/validator.git
