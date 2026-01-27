@@ -16,8 +16,12 @@ jobs:
           ssh-private-key: ${{ secrets.VALIDATOR_DEPLOY_KEY }}
 
       - uses: actions/checkout@v4
-        with:
-          submodules: recursive
+
+      - name: Checkout submodules via SSH
+        run: |
+          git config --global url."git@github.com:".insteadOf "https://github.com/"
+          git submodule sync --recursive
+          git submodule update --init --recursive
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
