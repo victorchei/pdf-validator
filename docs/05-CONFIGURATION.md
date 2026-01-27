@@ -297,11 +297,17 @@ const handleConfigChange = (isMaster: boolean, group: string) => {
 ```json
 {
   "name": "diploma-ui",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "homepage": "https://victorchei.github.io/pdf-validator"
 }
 ```
+
+**Версійність**: Версія в `package.json` повинна збігатися з версією в:
+
+- `CHANGELOG.md` (див. поточний релиз)
+- `src/components/TopInfo/index.tsx` (константа `APP_VERSION`)
+- Версія відображається на UI як badge поруч із заголовком
 
 ### Вимоги до оточення
 

@@ -43,15 +43,29 @@ on:
     branches:
       - master
 
+permissions:
+  contents: write
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Setup SSH for submodules
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.VALIDATOR_DEPLOY_KEY }}
+
+      - uses: actions/checkout@v4
+
+      - name: Checkout submodules via SSH
+        run: |
+          git config --global url."git@github.com:".insteadOf "https://github.com/"
+          git submodule sync --recursive
+          git submodule update --init --recursive
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '18'
           cache: 'npm'
@@ -69,6 +83,15 @@ jobs:
           publish_dir: ./build
 ```
 
+### Ключові моменти workflow
+
+| Крок | Деталі |
+|------|--------|
+| **SSH Agent** | `webfactory/ssh-agent@v0.9.0` завантажує deploy key для доступу до приватного submodule |
+| **Checkout** | `actions/checkout@v4` клонує основний репозиторій |
+| **Submodules** | Окремий крок перезаписує git config щоб використовувати SSH замість HTTPS, потім ініціалізує submodules |
+| **Permissions** | `contents: write` потрібен щоб `GITHUB_TOKEN` міг пушити у гілку `gh-pages` |
+
 ### Як працює автоматичний деплой
 
 ```
@@ -76,15 +99,19 @@ jobs:
         ↓
 2. GitHub Actions спрацьовує
         ↓
-3. npm ci — встановлює залежності
+3. SSH Agent завантажує deploy key
         ↓
-4. npm run build — створює папку build/
+4. Checkout основного репо + submodules через SSH
         ↓
-5. Вміст build/ деплоїтся на gh-pages гілку
+5. npm ci — встановлює залежності
         ↓
-6. GitHub Pages публікує з gh-pages
+6. npm run build — створює папку build/
         ↓
-7. Сайт доступний на https://victorchei.github.io/pdf-validator/
+7. Вміст build/ деплоїтся на gh-pages гілку
+        ↓
+8. GitHub Pages публікує з gh-pages
+        ↓
+9. Сайт доступний на https://victorchei.github.io/pdf-validator/
 ```
 
 ### Статус деплою
@@ -131,6 +158,111 @@ jobs:
 3. Очистити GitHub Pages кеш:
    - Settings → Pages
    - Збільшити версію deploy (якщо можливо)
+```
+
+---
+
+## 🔗 Git Submodules
+
+Проект використовує git submodule для модуля валідатора (`src/validator`), який знаходиться у приватному репозиторії `victorchei/validator`.
+
+### Структура
+
+```
+pdf-validator/                    # Публічний репозиторій
+└── src/
+    └── validator/                # Git submodule → victorchei/validator (приватний)
+```
+
+### Локальна робота з submodules
+
+```bash
+# Клонування з submodules
+git clone --recurse-submodules https://github.com/victorchei/pdf-validator.git
+
+# Якщо вже клонували без submodules
+git submodule update --init --recursive
+
+# Оновити submodule до останньої версії
+cd src/validator
+git pull origin main
+cd ../..
+git add src/validator
+git commit -m "chore: update validator submodule"
+
+# Перевірити стан submodules
+git submodule status
+```
+
+### CI/CD доступ до приватного submodule
+
+Оскільки `victorchei/validator` — приватний репозиторій, GitHub Actions потребує SSH deploy key для клонування.
+
+#### Налаштування (вже зроблено)
+
+1. **SSH deploy key** згенеровано та додано:
+   - **Публічний ключ** → deploy key у репозиторії `victorchei/validator` (Settings → Deploy keys)
+   - **Приватний ключ** → секрет `VALIDATOR_DEPLOY_KEY` у репозиторії `victorchei/pdf-validator` (Settings → Secrets)
+
+2. **Workflow** використовує `webfactory/ssh-agent@v0.9.0` для завантаження ключа
+
+3. **Git config** перезаписується щоб використовувати SSH замість HTTPS:
+
+   ```bash
+   git config --global url."git@github.com:".insteadOf "https://github.com/"
+   ```
+
+#### Чому SSH, а не HTTPS?
+
+`actions/checkout@v4` автоматично налаштовує `insteadOf` правило, яке конвертує SSH → HTTPS. Стандартний `GITHUB_TOKEN` має доступ лише до поточного репозиторію, тому для приватного submodule потрібен окремий SSH deploy key з явним override назад на SSH.
+
+#### Якщо deploy key потрібно перегенерувати
+
+```bash
+# 1. Згенерувати нову пару ключів
+ssh-keygen -t ed25519 -C "deploy-key-pdf-validator" -f deploy_key -N ""
+
+# 2. Додати публічний ключ як deploy key у victorchei/validator
+gh api repos/victorchei/validator/keys -X POST \
+  -f title="pdf-validator-ci" \
+  -f key="$(cat deploy_key.pub)" \
+  -f read_only=true
+
+# 3. Оновити секрет у victorchei/pdf-validator
+gh secret set VALIDATOR_DEPLOY_KEY < deploy_key
+
+# 4. Видалити ключі локально
+rm deploy_key deploy_key.pub
+```
+
+### Розв'язання проблем з submodules
+
+#### ❌ `fatal: repository not found` при CI
+
+```
+Перевірте:
+✅ Deploy key не прострочений у victorchei/validator (Settings → Deploy keys)
+✅ Секрет VALIDATOR_DEPLOY_KEY актуальний у pdf-validator (Settings → Secrets)
+✅ SSH agent крок іде ПЕРЕД checkout у workflow
+```
+
+#### ❌ `src/validator` порожня після клонування
+
+```bash
+# Ініціалізувати submodule вручну
+git submodule update --init --recursive
+```
+
+#### ❌ Submodule вказує на застарілий коміт
+
+```bash
+# Оновити до останнього коміту main гілки
+cd src/validator
+git checkout main
+git pull origin main
+cd ../..
+git add src/validator
+git commit -m "chore: update validator submodule to latest"
 ```
 
 ---
@@ -427,11 +559,11 @@ git tag -d v0.1.0
 
 ## 📚 Корисні посилання
 
-- **GitHub Pages docs**: https://pages.github.com/
-- **GitHub Actions docs**: https://docs.github.com/en/actions
-- **Vercel docs**: https://vercel.com/docs
-- **Netlify docs**: https://docs.netlify.com/
-- **AWS S3 docs**: https://docs.aws.amazon.com/s3/
+- **GitHub Pages docs**: <https://pages.github.com/>
+- **GitHub Actions docs**: <https://docs.github.com/en/actions>
+- **Vercel docs**: <https://vercel.com/docs>
+- **Netlify docs**: <https://docs.netlify.com/>
+- **AWS S3 docs**: <https://docs.aws.amazon.com/s3/>
 
 ---
 
