@@ -2,7 +2,7 @@ import { Box, Chip, Typography } from '@mui/material'
 import React from 'react'
 
 const APP_VERSION = '0.2.0'
-const APP_DATE = '27.01.2026'
+const APP_DATE = '27.01.2026' // Остання версія з CHANGELOG: [0.2.0] - 2026-01-27
 
 export const TopInfo = () => {
   return (
