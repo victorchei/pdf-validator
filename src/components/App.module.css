@@ -1,0 +1,149 @@
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+@media (min-width: 600px) {
+  .container {
+    max-width: 600px;
+  }
+}
+
+@media (min-width: 960px) {
+  .container {
+    max-width: 800px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .container {
+    max-width: 900px;
+  }
+}
+
+@media (min-width: 1600px) {
+  .container {
+    max-width: 1000px;
+  }
+}
+
+.section {
+  margin-bottom: 8px;
+}
+
+@media (min-width: 600px) {
+  .section {
+    margin-bottom: 12px;
+  }
+}
+
+@media (min-width: 960px) {
+  .section {
+    margin-bottom: 16px;
+  }
+}
+
+.mainContent {
+  background-color: var(--color-white);
+  border-radius: 8px;
+  padding: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  margin: 8px 0;
+}
+
+@media (min-width: 600px) {
+  .mainContent {
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  }
+}
+
+@media (min-width: 960px) {
+  .mainContent {
+    padding: 28px;
+  }
+}
+
+.uploadLabel {
+  margin-bottom: 6px;
+  font-size: clamp(0.7rem, 2vw, 0.85rem);
+  text-align: center;
+  padding: 0 8px;
+}
+
+.fileInputWrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.fileInputWrapper input {
+  font-size: 0.75rem;
+}
+
+@media (min-width: 600px) {
+  .fileInputWrapper input {
+    font-size: 0.85rem;
+  }
+}
+
+.dropZone {
+  border: 2px dashed var(--color-primary-blue);
+  border-radius: 8px;
+  padding: 24px;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s;
+  min-height: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  max-width: 400px;
+  width: 100%;
+}
+
+.dropZone:hover {
+  background-color: rgba(34, 74, 152, 0.04);
+}
+
+.dropZoneDragOver {
+  background-color: rgba(34, 74, 152, 0.08);
+  border-color: var(--color-dark-blue);
+}
+
+.dropZoneIcon {
+  width: 48px;
+  height: 48px;
+  color: var(--color-primary-blue);
+}
+
+@media (min-width: 600px) {
+  .dropZone {
+    padding: 32px;
+    min-height: 120px;
+    max-width: 500px;
+  }
+
+  .dropZoneIcon {
+    width: 56px;
+    height: 56px;
+  }
+}
+
+@media (min-width: 960px) {
+  .dropZone {
+    padding: 40px;
+    min-height: 140px;
+    max-width: 600px;
+  }
+
+  .dropZoneIcon {
+    width: 64px;
+    height: 64px;
+  }
+}

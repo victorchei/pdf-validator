@@ -1,0 +1,25 @@
+:root {
+  /* Brand primary */
+  --color-primary-blue: #224a98;
+  --color-primary-green: #4cad3b;
+
+  /* Brand accent */
+  --color-accent-red: #e53e23;
+  --color-accent-orange: #ee781c;
+
+  /* Neutral */
+  --color-dark-blue: #004d85;
+  --color-text: #404248; /* Основний текст згідно бренд-буку */
+  --color-text-secondary: #595959; /* Вторинний текст */
+  --color-link: #0366d6;
+  --color-white: #ffffff;
+  --color-bg-light: #f5f7fa; /* Світло-сірий фон для body */
+
+  /* Typography */
+  --font-family: 'Montserrat', Arial, sans-serif;
+  --font-weight-regular: 400;
+  --font-weight-bold: 700;
+
+  /* Gradient */
+  --gradient-bg: linear-gradient(0deg, var(--color-primary-blue) 0%, var(--color-primary-green) 100%);
+}
