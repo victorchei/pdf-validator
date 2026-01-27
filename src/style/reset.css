@@ -118,7 +118,7 @@ blockquote:before,
 blockquote:after,
 q:before,
 q:after {
-  content: "";
+  content: '';
   content: none;
 }
 table {
@@ -126,7 +126,7 @@ table {
   border-spacing: 0;
 }
 body {
-  font-family: Roboto, sans-serif;
+  font-family: 'Montserrat', Arial, sans-serif;
   line-height: 1;
   margin: 0;
   -webkit-font-smoothing: antialiased;

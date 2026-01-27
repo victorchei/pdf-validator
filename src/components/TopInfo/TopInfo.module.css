@@ -1,0 +1,25 @@
+.title {
+  font-size: 2rem;
+  text-align: center;
+  margin: 0 8px 4px 8px;
+  line-height: 1.2;
+}
+
+@media (max-width: 900px) {
+  .title {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .title {
+    font-size: 1.25rem;
+  }
+}
+
+.subtitle {
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--color-text);
+  margin-bottom: 12px;
+}

@@ -1,14 +1,24 @@
-@import url("./reset.css");
+@import url('./reset.css');
+@import url('./variables.css');
 
 body {
-  background: linear-gradient(0deg, rgba(58,147,233,1) 0%, rgba(236,230,28,1) 100%);
-  background-repeat: no-repeat;
-  background-size: cover;
+  background: var(--color-white);
 }
 
 .App {
   min-height: 100vh;
-  padding-top: 32px;
+  max-height: 100vh;
+  padding: 16px;
+  padding-bottom: 8px;
+  color: var(--color-text);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
 }
 
-
+@media (max-width: 768px) {
+  .App {
+    padding: 12px;
+    padding-bottom: 4px;
+  }
+}
