@@ -1,4 +1,107 @@
 .authors {
-  margin: 8px 16px;
-  font-size: 0.85rem;
+  margin: 6px 8px 4px 8px;
+  font-size: 0.8rem;
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0;
+}
+
+@media (min-width: 600px) {
+  .authors {
+    max-width: 600px;
+  }
+}
+
+@media (min-width: 960px) {
+  .authors {
+    max-width: 800px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .authors {
+    max-width: 900px;
+  }
+}
+
+@media (min-width: 1600px) {
+  .authors {
+    max-width: 1000px;
+  }
+}
+
+@media (max-width: 480px) {
+  .authors {
+    margin: 4px 6px 2px 6px;
+    font-size: 0.75rem;
+  }
+}
+
+.heading {
+  font-size: 0.8rem;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+@media (min-width: 600px) {
+  .heading {
+    font-size: 0.85rem;
+  }
+}
+
+.name {
+  font-size: 0.75rem;
+  margin-bottom: 8px;
+}
+
+@media (min-width: 600px) {
+  .name {
+    font-size: 0.8rem;
+  }
+}
+
+.secondary {
+  color: var(--color-text-secondary);
+  font-size: 0.65rem;
+  margin-bottom: 3px;
+}
+
+@media (min-width: 600px) {
+  .secondary {
+    font-size: 0.7rem;
+  }
+}
+
+.version {
+  font-style: italic;
+  font-size: 0.65rem;
+}
+
+@media (min-width: 600px) {
+  .version {
+    font-size: 0.7rem;
+  }
+}
+
+.authorColumn {
+  margin-bottom: 8px;
+}
+
+@media (min-width: 960px) {
+  .authors {
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
+  }
+
+  .authorColumn {
+    flex: 1;
+    margin-bottom: 0;
+  }
+
+  .authorColumn:last-child {
+    text-align: right;
+  }
 }

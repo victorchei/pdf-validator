@@ -4,6 +4,7 @@ import React, { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 import App from './components/App'
+import './style/index.css'
 import { theme } from './theme'
 
 const container = document.getElementById('root') as HTMLElement

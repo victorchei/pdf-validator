@@ -1,5 +1,4 @@
-import { MenuItem, Select, SelectChangeEvent, Switch } from '@mui/material'
-import Button from '@mui/material/Button'
+import { MenuItem, Select, SelectChangeEvent } from '@mui/material'
 import Modal from '@mui/material/Modal'
 import Typography from '@mui/material/Typography'
 import React from 'react'
@@ -29,9 +28,9 @@ export const Settings = ({
     handleClose()
   }
 
-  const onChangeHandler = (_: any, checked: boolean) => {
-    setConfig(getStartConfig(checked, groupName))
-    setValue(checked)
+  const onToggleQualification = (isMaster: boolean) => {
+    setConfig(getStartConfig(isMaster, groupName))
+    setValue(isMaster)
   }
 
   const onGroupSelect = (event: SelectChangeEvent) => {
@@ -40,22 +39,65 @@ export const Settings = ({
 
   return (
     <div>
-      <Typography sx={{ margin: '0 32px', textAlign: 'center' }} color="error">
-        (для більш гнучкого встановлення вимог до перевірки натисніть
-        <Button onClick={handleOpen}>Налаштування перевірки</Button>
-        ).
+      <Typography
+        sx={{
+          margin: { xs: '0 8px', sm: '0 16px' },
+          textAlign: 'center',
+          fontSize: { xs: '0.75rem', sm: '0.85rem' },
+        }}
+        color="error"
+      >
+        Для більш гнучкого встановлення вимог до перевірки натисніть{' '}
+        <button type="button" onClick={handleOpen} className={styles.settingsLink}>
+          Налаштування перевірки
+        </button>
       </Typography>
-      <Typography sx={{ margin: '16px 16px 0', textAlign: 'center' }}>
+      <Typography
+        sx={{
+          margin: { xs: '8px 8px 0', sm: '12px 16px 0' },
+          textAlign: 'center',
+          fontSize: { xs: '0.75rem', sm: '0.85rem' },
+        }}
+      >
         <span>Виберіть кваліфікацію: </span>
-        Бакалавр
-        <Switch onChange={onChangeHandler} checked={value} />
-        Магістр
+        <span className={styles.qualificationToggle}>
+          <button
+            type="button"
+            className={`${styles.qualificationOption} ${!value ? styles.qualificationOptionActive : ''}`}
+            onClick={() => onToggleQualification(false)}
+          >
+            Бакалавр
+          </button>
+          <button
+            type="button"
+            className={`${styles.qualificationOption} ${value ? styles.qualificationOptionActive : ''}`}
+            onClick={() => onToggleQualification(true)}
+          >
+            Магістр
+          </button>
+        </span>
       </Typography>
-      <Typography component="label" sx={{ margin: '16px', textAlign: 'center', display: 'block' }}>
+      <Typography
+        component="label"
+        sx={{
+          margin: { xs: '8px', sm: '12px' },
+          textAlign: 'center',
+          display: 'block',
+          fontSize: { xs: '0.75rem', sm: '0.85rem' },
+        }}
+      >
         Виберіть групу:{' '}
-        <Select size="small" value={groupName} onChange={onGroupSelect} sx={{ background: 'background.paper' }}>
+        <Select
+          size="small"
+          value={groupName}
+          onChange={onGroupSelect}
+          sx={{
+            background: 'background.paper',
+            fontSize: { xs: '0.75rem', sm: '0.85rem' },
+          }}
+        >
           {groupsConfig.map((name) => (
-            <MenuItem key={name} value={name}>
+            <MenuItem key={name} value={name} sx={{ fontSize: { xs: '0.75rem', sm: '0.85rem' } }}>
               {name}
             </MenuItem>
           ))}

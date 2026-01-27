@@ -9,9 +9,11 @@
 
   /* Neutral */
   --color-dark-blue: #004d85;
-  --color-text: #404248;
+  --color-text: #404248; /* Основний текст згідно бренд-буку */
+  --color-text-secondary: #595959; /* Вторинний текст */
   --color-link: #0366d6;
   --color-white: #ffffff;
+  --color-bg-light: #f5f7fa; /* Світло-сірий фон для body */
 
   /* Typography */
   --font-family: 'Montserrat', Arial, sans-serif;

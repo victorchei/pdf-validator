@@ -99,7 +99,7 @@ export const SettingsForm = ({
         direction="column"
         alignItems="center"
         justifyContent="center"
-        sx={{ position: 'sticky', zIndex: 1, top: 0, paddingTop: '16px', backgroundColor: '#fff' }}
+        sx={{ position: 'sticky', zIndex: 1, top: 0, paddingTop: '16px', backgroundColor: 'var(--color-white)' }}
       >
         <Typography color="error" sx={{ textAlign: 'center', fontSize: '0.75rem' }}>
           Зразок налаштувань. Форма може бути сконфігурована будь-яким чином. На порталі університету будуть доступні
