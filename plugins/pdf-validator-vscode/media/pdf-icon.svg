@@ -1,0 +1,17 @@
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- PDF Document Body - Blue -->
+  <path d="M14 2H6C4.9 2 4 2.9 4 4V20C4 21.1 4.9 22 6 22H18C19.1 22 20 21.1 20 20V8L14 2Z" fill="#2196F3" />
+
+  <!-- PDF Document Corner - Darker Blue -->
+  <path d="M14 2V8H20L14 2Z" fill="#1976D2" />
+
+  <!-- Text Lines - White -->
+  <rect x="7" y="11" width="10" height="1.5" rx="0.5" fill="white" opacity="0.9" />
+  <rect x="7" y="14" width="7" height="1.5" rx="0.5" fill="white" opacity="0.9" />
+  <rect x="7" y="17" width="10" height="1.5" rx="0.5" fill="white" opacity="0.9" />
+
+  <!-- Letter "V" Badge in corner -->
+  <circle cx="18" cy="6" r="3" fill="#1976D2" />
+  <text x="18" y="8" font-family="Arial, sans-serif" font-size="6" font-weight="bold" fill="white"
+    text-anchor="middle">V</text>
+</svg>

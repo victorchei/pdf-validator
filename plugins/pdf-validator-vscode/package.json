@@ -1,0 +1,142 @@
+{
+  "name": "pdf-validator-helper",
+  "displayName": "PDF Validator Helper",
+  "description": "VS Code extension for managing PDF Validator versions, branches, and deployments",
+  "version": "1.0.0",
+  "author": "Viktor Zhelizko",
+  "license": "MIT",
+  "publisher": "victorchei",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/victorchei/pdf-validator.git"
+  },
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "keywords": [
+    "git",
+    "version",
+    "deploy",
+    "changelog",
+    "branch"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "pdf-validator-panel",
+          "title": "PDF Validator",
+          "icon": "media/pdf-icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "pdf-validator-panel": [
+        {
+          "id": "pdf-validator-view",
+          "name": "Operations"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "pdf-validator.createVersion",
+        "title": "Create New Version (SemVer)",
+        "category": "PDF Validator",
+        "icon": "$(add)"
+      },
+      {
+        "command": "pdf-validator.deploy",
+        "title": "Deploy Current Branch",
+        "category": "PDF Validator",
+        "icon": "$(rocket)"
+      },
+      {
+        "command": "pdf-validator.updateDocs",
+        "title": "Update Documentation",
+        "category": "PDF Validator",
+        "icon": "$(book)"
+      },
+      {
+        "command": "pdf-validator.mergeToMaster",
+        "title": "Merge to Master",
+        "category": "PDF Validator",
+        "icon": "$(git-merge)"
+      },
+      {
+        "command": "pdf-validator.push",
+        "title": "Push",
+        "category": "PDF Validator",
+        "icon": "$(cloud-upload)"
+      },
+      {
+        "command": "pdf-validator.showVersionInfo",
+        "title": "Show Version Info",
+        "category": "PDF Validator",
+        "icon": "$(info)"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "pdf-validator.createVersion",
+        "key": "ctrl+shift+v v",
+        "mac": "cmd+shift+v v"
+      }
+    ],
+    "configuration": {
+      "title": "PDF Validator",
+      "properties": {
+        "pdf-validator.repositoryPath": {
+          "type": "string",
+          "default": "${workspaceFolder}",
+          "description": "Path to PDF Validator repository"
+        },
+        "pdf-validator.submodulePath": {
+          "type": "string",
+          "default": "src/validator",
+          "description": "Path to validator submodule"
+        },
+        "pdf-validator.versionFormat": {
+          "type": "string",
+          "default": "v{MAJOR}.{MINOR}.{PATCH}",
+          "description": "Version format pattern"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run esbuild-base -- --minify",
+    "esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=dist/extension.js --external:vscode --platform=node --target=node18",
+    "compile": "npm run esbuild-base",
+    "watch": "npm run esbuild-base -- --watch",
+    "pretest": "npm run compile",
+    "test": "node ./dist/test/runTest.js",
+    "lint": "eslint src --ext ts",
+    "test:unit": "npm run compile && node ./dist/test/suite/index.js",
+    "test:watch": "npm run compile && npm run test:unit -- --watch"
+  },
+  "devDependencies": {
+    "@types/glob": "^8.1.0",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^20.0.0",
+    "@types/vscode": "^1.80.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "@vscode/test-electron": "^2.5.2",
+    "esbuild": "^0.19.0",
+    "eslint": "^8.40.0",
+    "glob": "^10.5.0",
+    "mocha": "^10.8.2",
+    "typescript": "^5.1.0"
+  },
+  "dependencies": {
+    "simple-git": "^3.20.0"
+  }
+}
