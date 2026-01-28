@@ -1,0 +1,29 @@
+#!/bin/sh
+
+# Pre-commit hook to auto-generate versions.json
+# This ensures versions.json is always up-to-date before committing
+
+echo "🔍 Checking if versions.json needs update..."
+
+# Check if package.json or generate-versions.js is being committed
+if git diff --cached --name-only | grep -qE 'package.json|scripts/generate-versions.js'; then
+  echo "📝 Detected changes in package.json or generate-versions.js"
+  echo "🔄 Generating versions.json..."
+  
+  # Generate versions.json
+  npm run generate-versions
+  
+  # Check if versions.json changed
+  if git diff --quiet public/versions.json; then
+    echo "✅ versions.json is already up-to-date"
+  else
+    echo "✨ versions.json updated"
+    # Stage the updated file
+    git add public/versions.json
+    echo "✅ Staged updated versions.json"
+  fi
+else
+  echo "✅ No version-related files changed, skipping"
+fi
+
+exit 0

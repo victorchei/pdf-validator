@@ -10,9 +10,56 @@
 
 ```
 .github/workflows/
-├── deploy.yml         # Деплой master (Latest) → /
-└── deploy-version.yml # Деплой будь-якої v*.*.* → /vX.Y.Z/
+├── deploy.yml                # Деплой master (Latest) → /
+├── deploy-version.yml        # Деплой будь-якої v*.*.* → /vX.Y.Z/
+└── auto-update-versions.yml  # 🆕 Автоматична генерація versions.json
 ```
+
+---
+
+## 🤖 Автоматична генерація versions.json
+
+### GitHub Actions (Серверна автоматизація)
+
+**Файл:** `.github/workflows/auto-update-versions.yml`
+
+**Коли спрацьовує:**
+- При push в `master`
+- Якщо змінилися `package.json` або `scripts/generate-versions.js`
+
+**Що робить:**
+1. Генерує `versions.json`
+2. Якщо є зміни - автоматично комітить
+3. Пушить зміни назад в `master`
+
+**Переваги:**
+- ✅ Працює автоматично на GitHub
+- ✅ Не потребує локального налаштування
+- ✅ Завжди спрацює, навіть якщо забули локально
+- ✅ Використовує `[skip ci]` щоб уникнути циклів
+
+### Pre-commit Hook (Локальна автоматизація)
+
+**Файл:** `.githooks/pre-commit`
+
+**Коли спрацьовує:**
+- При локальному `git commit`
+- Якщо в commit є `package.json` або `generate-versions.js`
+
+**Що робить:**
+1. Генерує `versions.json`
+2. Автоматично додає до commit
+3. Показує статус в терміналі
+
+**Встановлення:**
+```bash
+./scripts/setup-hooks.sh
+```
+
+**Переваги:**
+- ✅ Миттєва перевірка локально
+- ✅ Бачиш результат до push
+- ✅ Менше помилок в CI/CD
 
 ---
 
@@ -128,9 +175,18 @@ const fetchVersions = async () => {
 
 ## 🔗 Workflow створення нової версії
 
+### Одноразове налаштування (для нових розробників)
+
+```bash
+# Встановити Git hooks для автоматичної генерації versions.json
+./scripts/setup-hooks.sh
+```
+
 ### Крок 1: Створення гілки
 
 ```bash
+git checkout master
+git pull origin master
 git checkout -b v2.0.0
 ```
 
@@ -164,17 +220,39 @@ const VERSIONS_CONFIG = [
 ]
 ```
 
-### Крок 4: Push гілки
+### Крок 4: Commit змін
 
 ```bash
 git add .
 git commit -m "chore: Create v2.0.0 release branch"
+```
+
+**✨ Pre-commit hook автоматично:**
+- Згенерує `versions.json`
+- Додасть до commit
+
+### Крок 5: Push гілки
+
+```bash
 git push origin v2.0.0
 ```
 
 **Автоматично спрацює:** `.github/workflows/deploy-version.yml`
 
-### Крок 5: Активація в dropdown
+### Крок 6: Оновлення master
+
+```bash
+git checkout master
+git merge v2.0.0
+git push origin master
+```
+
+**🤖 GitHub Actions автоматично:**
+- Згенерує `versions.json` через `auto-update-versions.yml`
+- Закомітить якщо є зміни
+- Задеплоїть через `deploy.yml`
+
+### Крок 7: Активація в dropdown
 
 Коли версія готова показати користувачам:
 
@@ -186,7 +264,7 @@ git push origin v2.0.0
 }
 ```
 
-Commit і push в `master` → оновить `versions.json` → VersionSelector покаже нову версію
+Commit → **pre-commit hook** або **GitHub Actions** оновлять `versions.json` → VersionSelector покаже нову версію
 
 ---
 
@@ -313,6 +391,8 @@ git commit -m "chore: Update validator submodule to v2.0.0"
 }
 ```
 
+**Commit** → versions.json **автоматично оновиться** 🤖
+
 ### Активувати версію
 
 ```javascript
@@ -323,6 +403,8 @@ git commit -m "chore: Update validator submodule to v2.0.0"
 }
 ```
 
+**Commit** → versions.json **автоматично оновиться** 🤖
+
 ### Приховати стару версію
 
 ```javascript
@@ -332,17 +414,22 @@ git commit -m "chore: Update validator submodule to v2.0.0"
 }
 ```
 
+**Commit** → versions.json **автоматично оновиться** 🤖
+```
+
 ---
 
 ## ✅ Checklist нової версії
 
+- [ ] **Одноразово:** Запустити `./scripts/setup-hooks.sh` (для нових розробників)
 - [ ] Створити гілку `v*.*.*`
 - [ ] Оновити `package.json` version
 - [ ] Додати в `generate-versions.js` з `deployed: false`
+- [ ] Commit → **pre-commit hook автоматично згенерує versions.json** 🤖
 - [ ] Push → автоматичний deploy через `deploy-version.yml`
 - [ ] Перевірити деплой на `/{version}/`
-- [ ] Змінити `deployed: true` коли готово показати
-- [ ] Commit → оновить `versions.json`
+- [ ] Merge в master → **GitHub Actions оновить versions.json** 🤖
+- [ ] Змінити `deployed: true` коли готово показати → **auto-update спрацює** 🤖
 - [ ] Синхронізувати validator submodule
 
 ---
@@ -354,9 +441,44 @@ git commit -m "chore: Update validator submodule to v2.0.0"
 ✅ Не потрібно створювати файли під кожну версію  
 ✅ Універсальна 404 для всіх помилок  
 ✅ Легко приховувати/показувати версії  
-✅ Масштабується на десятки версій
+✅ Масштабується на десятки версій  
+✅ **🆕 Автоматична генерація versions.json** (локально + CI/CD)  
+✅ **🆕 Неможливо забути оновити versions.json**
+
+---
+
+## 🔧 Troubleshooting
+
+### versions.json не оновлюється локально
+
+```bash
+# Перевірити чи встановлені hooks
+git config core.hooksPath
+
+# Має показати: .githooks
+# Якщо немає - запустити:
+./scripts/setup-hooks.sh
+```
+
+### versions.json не оновлюється на GitHub
+
+Перевірити:
+1. Workflow `auto-update-versions.yml` існує
+2. В логах Actions перевірити чи спрацював
+3. Переконатися що змінилися `package.json` або `generate-versions.js`
+
+### Pre-commit hook не спрацьовує
+
+```bash
+# Перевірити права
+ls -la .githooks/pre-commit
+# Має бути -rwxr-xr-x (executable)
+
+# Якщо немає - додати:
+chmod +x .githooks/pre-commit
+```
 
 ---
 
 **Дата оновлення:** 28 січня 2026  
-**Версія документа:** 1.1.0
+**Версія документа:** 1.2.0

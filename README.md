@@ -54,7 +54,10 @@ git submodule update --init --recursive
 # 2. Встановлення залежностей
 npm install
 
-# 3. Запуск в режимі розробки
+# 3. Встановлення Git hooks (для автоматизації)
+./scripts/setup-hooks.sh
+
+# 4. Запуск в режимі розробки
 npm start
 
 # Додаток відкриється на http://localhost:3000
@@ -73,6 +76,9 @@ npm start
 # Білд для продакшену
 npm run build
 
+# Генерація versions.json (автоматично через pre-commit hook)
+npm run generate-versions
+
 # Запуск тестів
 npm test
 
@@ -82,6 +88,8 @@ npm run deploy
 # Запуск оптимізованого білду локально
 serve -s build
 ```
+
+> **🤖 Автоматизація**: `versions.json` генерується автоматично при commit завдяки pre-commit hook та GitHub Actions
 
 ---
 
