@@ -1,7 +1,7 @@
 {
   "homepage": "https://victorchei.github.io/pdf-validator",
   "name": "pdf-validator",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "private": true,
   "engines": {
     "npm": ">=8.0.0",
@@ -43,6 +43,7 @@
     "start": "react-scripts start",
     "test": "jest --coverage",
     "build": "react-scripts build",
+    "generate-versions": "node scripts/generate-versions.js",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
   },

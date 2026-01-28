@@ -1,9 +1,9 @@
-name: Deploy to GitHub Pages
+name: Deploy v1.0.0
 
 on:
   push:
     branches:
-      - master
+      - v1.0.0
 
 permissions:
   contents: write
@@ -40,9 +40,18 @@ jobs:
 
       - name: Build
         run: npm run build
+        env:
+          PUBLIC_URL: /pdf-validator/v1.0.0
 
-      - name: Deploy to GitHub Pages
+      - name: Deploy to GitHub Pages (v1.0.0 folder)
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./build
+          destination_dir: v1.0.0
+          keep_files: true
+
+      - name: Success message
+        run: |
+          echo "✅ v1.0.0 deployed successfully!"
+          echo "📍 URL: https://victorchei.github.io/pdf-validator/v1.0.0/"
