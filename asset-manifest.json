@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/pdf-validator/static/css/main.34697c6e.css",
-    "main.js": "/pdf-validator/static/js/main.56245761.js",
+    "main.js": "/pdf-validator/static/js/main.c200b67c.js",
     "index.html": "/pdf-validator/index.html",
     "main.34697c6e.css.map": "/pdf-validator/static/css/main.34697c6e.css.map",
-    "main.56245761.js.map": "/pdf-validator/static/js/main.56245761.js.map"
+    "main.c200b67c.js.map": "/pdf-validator/static/js/main.c200b67c.js.map"
   },
   "entrypoints": [
     "static/css/main.34697c6e.css",
-    "static/js/main.56245761.js"
+    "static/js/main.c200b67c.js"
   ]
 }
