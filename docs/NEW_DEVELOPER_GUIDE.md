@@ -83,12 +83,7 @@ git commit -m "chore: Bump version to 1.1.0"
 
 **Не потребує дій!** Спрацює автоматично.
 
-#### 3️⃣ Резервний (Auto-update Workflow)
-
-**Коли:** При push в `master` якщо змінилися `package.json` або `generate-versions.js`  
-**Що робить:** Додатково перевіряє та комітить якщо пропущено
-
-**Не потребує дій!** Страховка на випадок помилок.
+#### 3️⃣ Система автоматизації
 
 ---
 
@@ -273,19 +268,15 @@ git add public/versions.json
                   ▼
          ┌─────────────────────┐
          │ GitHub Actions      │ 🤖 Серверна автоматизація
+         │ (deploy.yml)        │
          └────────┬────────────┘
                   │
-         ┌────────┴───────────┐
-         ▼                    ▼
-┌──────────────────┐  ┌──────────────────┐
-│ deploy.yml       │  │ auto-update-     │
-│ (master)         │  │ versions.yml     │
-│                  │  │ (резерв)         │
-│ Generate         │  │                  │
-│ versions.json    │  │ Перевіряє +      │
-│ → Build → Deploy │  │ Комітить якщо    │
-│                  │  │ пропущено        │
-└──────────────────┘  └──────────────────┘
+                  ▼
+         ┌────────────────────┐
+         │ Generate versions  │
+         │ (перед будом)      │
+         │ → Build → Deploy   │
+         └────────────────────┘
 ```
 
 ---
@@ -323,11 +314,6 @@ npm run generate-versions
 ❌ Створювати окремі workflow файли для нових версій  
 ❌ Хвилюватися про синхронізацію versions.json
 
----
-
-## Підтримка
-
-Якщо є проблеми:
 1. Перевірити [DEPLOYMENT_STRATEGY.md](./docs/version-management/DEPLOYMENT_STRATEGY.md) → Troubleshooting
 2. Перевірити логи GitHub Actions
 3. Запустити `./scripts/setup-hooks.sh` ще раз
@@ -335,4 +321,5 @@ npm run generate-versions
 ---
 
 **Остання оновлена:** 28 січня 2026  
-**Версія гайду:** 1.0.0
+**Версія гайду:** 1.0.1  
+**Оптимізація:** Видалено резервний auto-update-versions.yml (економія GitHub Actions хвилин)

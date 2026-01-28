@@ -10,9 +10,8 @@
 
 ```
 .github/workflows/
-├── deploy.yml                # Деплой master (Latest) → /
-├── deploy-version.yml        # Деплой будь-якої v*.*.* → /vX.Y.Z/
-└── auto-update-versions.yml  # 🆕 Автоматична генерація versions.json
+├── deploy.yml         # Деплой master (Latest) → /
+└── deploy-version.yml # Деплой будь-якої v*.*.* → /vX.Y.Z/
 ```
 
 ---
@@ -21,22 +20,21 @@
 
 ### GitHub Actions (Серверна автоматизація)
 
-**Файл:** `.github/workflows/auto-update-versions.yml`
+**Файли:** `deploy.yml` + `deploy-version.yml`
 
 **Коли спрацьовує:**
-- При push в `master`
-- Якщо змінилися `package.json` або `scripts/generate-versions.js`
+- При кожному push в `master` (deploy.yml)
+- При кожному push в `v*.*.*` гілки (deploy-version.yml)
 
 **Що робить:**
-1. Генерує `versions.json`
-2. Якщо є зміни - автоматично комітить
-3. Пушить зміни назад в `master`
+1. Генерує `versions.json` **перед кожним будом**
+2. Включає в build та деплой
 
 **Переваги:**
-- ✅ Працює автоматично на GitHub
-- ✅ Не потребує локального налаштування
-- ✅ Завжди спрацює, навіть якщо забули локально
-- ✅ Використовує `[skip ci]` щоб уникнути циклів
+- ✅ Завжди спрацює автоматично при деплої
+- ✅ Не потребує спеціального workflow
+- ✅ Гарантує актуальність versions.json
+- ✅ Економить GitHub Actions хвилини
 
 ### Pre-commit Hook (Локальна автоматизація)
 
@@ -443,7 +441,8 @@ git commit -m "chore: Update validator submodule to v2.0.0"
 ✅ Легко приховувати/показувати версії  
 ✅ Масштабується на десятки версій  
 ✅ **🆕 Автоматична генерація versions.json** (локально + CI/CD)  
-✅ **🆕 Неможливо забути оновити versions.json**
+✅ **🆕 Неможливо забути оновити versions.json**  
+✅ **🆕 Оптимізовано - мінімум workflows, максимум функціональності**
 
 ---
 
@@ -463,9 +462,9 @@ git config core.hooksPath
 ### versions.json не оновлюється на GitHub
 
 Перевірити:
-1. Workflow `auto-update-versions.yml` існує
-2. В логах Actions перевірити чи спрацював
-3. Переконатися що змінилися `package.json` або `generate-versions.js`
+1. Логи GitHub Actions (Actions tab)
+2. Чи виконується deploy.yml без помилок
+3. Переконатися що deploy.yml має крок "Generate versions.json"
 
 ### Pre-commit hook не спрацьовує
 
@@ -481,4 +480,5 @@ chmod +x .githooks/pre-commit
 ---
 
 **Дата оновлення:** 28 січня 2026  
-**Версія документа:** 1.2.0
+**Версія документа:** 1.2.1  
+**Оптимізація:** Видалено резервний auto-update-versions.yml workflow (економія ресурсів)
