@@ -33,7 +33,9 @@ export const VersionSelector: React.FC = () => {
       const response = await fetch('/pdf-validator/versions.json')
       if (response.ok) {
         const data: VersionsData = await response.json()
-        setVersions(data.versions)
+        // Show only last 10 versions (most recent first)
+        const recentVersions = data.versions.slice(0, 10)
+        setVersions(recentVersions)
       }
     } catch (error) {
       console.error('Failed to load versions:', error)
@@ -84,6 +86,14 @@ export const VersionSelector: React.FC = () => {
           label="Версія"
           onChange={(e) => handleVersionChange(e.target.value)}
           className={styles.select}
+          MenuProps={{
+            PaperProps: {
+              style: {
+                maxHeight: 400,
+                overflow: 'auto',
+              },
+            },
+          }}
         >
           {versions.map((version) => (
             <MenuItem key={version.id} value={version.id}>
