@@ -82,11 +82,22 @@ export default function App() {
       <div className={styles.container}>
         <div className={styles.mainContent}>
           <div className={styles.section}>
+            <TopInfo />
+          </div>
+          {/* Version selector moved below title for better UX */}
+          <div className={styles.section}>
+            <Stack direction="row" justifyContent="center" alignItems="center">
+              <VersionSelector />
+            </Stack>
+          </div>
+          {/* Old layout - VersionSelector in header caused UI issues
+          <div className={styles.section}>
             <Stack direction="row" justifyContent="space-between" alignItems="center">
               <TopInfo />
               <VersionSelector />
             </Stack>
           </div>
+          */}
           <div className={styles.section}>
             <Settings isMasterDefault={isMasterDefault} config={config} setConfig={setConfig} />
           </div>
