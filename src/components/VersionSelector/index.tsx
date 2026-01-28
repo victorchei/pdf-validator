@@ -1,5 +1,5 @@
+import { Box, Chip, FormControl, InputLabel, MenuItem, Select } from '@mui/material'
 import React, { useEffect, useState } from 'react'
-import { MenuItem, Select, FormControl, InputLabel, Box, Chip } from '@mui/material'
 import styles from './VersionSelector.module.css'
 
 interface Version {
@@ -9,6 +9,7 @@ interface Version {
   path: string
   branch: string
   isLatest: boolean
+  deployed?: boolean
   status: 'stable' | 'beta' | 'alpha'
   releaseDate: string
 }
@@ -33,8 +34,9 @@ export const VersionSelector: React.FC = () => {
       const response = await fetch('/pdf-validator/versions.json')
       if (response.ok) {
         const data: VersionsData = await response.json()
-        // Show only last 10 versions (most recent first)
-        const recentVersions = data.versions.slice(0, 10)
+        // Filter only deployed versions and show up to 10 most recent
+        const deployedVersions = data.versions.filter((v: Version) => v.deployed !== false)
+        const recentVersions = deployedVersions.slice(0, 10)
         setVersions(recentVersions)
       }
     } catch (error) {
@@ -47,7 +49,7 @@ export const VersionSelector: React.FC = () => {
   const detectCurrentVersion = () => {
     const path = window.location.pathname
     const match = path.match(/\/(v\d+\.\d+\.\d+)/)
-    
+
     if (match) {
       setCurrentVersion(match[1])
     } else {
@@ -56,7 +58,7 @@ export const VersionSelector: React.FC = () => {
   }
 
   const handleVersionChange = (versionId: string) => {
-    const version = versions.find(v => v.id === versionId)
+    const version = versions.find((v) => v.id === versionId)
     if (version) {
       window.location.href = version.path
     }
@@ -99,9 +101,7 @@ export const VersionSelector: React.FC = () => {
             <MenuItem key={version.id} value={version.id}>
               <Box className={styles.menuItem}>
                 <span>{version.label}</span>
-                {version.isLatest && (
-                  <Chip label="Latest" size="small" color="primary" className={styles.chip} />
-                )}
+                {version.isLatest && <Chip label="Latest" size="small" color="primary" className={styles.chip} />}
                 {!version.isLatest && (
                   <Chip
                     label={getStatusBadge(version.status).label}

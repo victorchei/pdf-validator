@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Сторінку не знайдено - PDF Validator</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
+          'Droid Sans', 'Helvetica Neue', sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+
+      .container {
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        padding: 48px 32px;
+        max-width: 500px;
+        width: 100%;
+        text-align: center;
+      }
+
+      .error-code {
+        font-size: 120px;
+        font-weight: 800;
+        color: #667eea;
+        line-height: 1;
+        margin-bottom: 16px;
+      }
+
+      h1 {
+        font-size: 28px;
+        color: #333;
+        margin-bottom: 16px;
+      }
+
+      p {
+        font-size: 16px;
+        color: #666;
+        line-height: 1.6;
+        margin-bottom: 32px;
+      }
+
+      .version-info {
+        background: #f8f9fa;
+        border-radius: 8px;
+        padding: 16px;
+        margin-bottom: 24px;
+        font-size: 14px;
+        color: #555;
+      }
+
+      .buttons {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .button {
+        padding: 12px 24px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 16px;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        border: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .button-primary {
+        background: #667eea;
+        color: white;
+      }
+
+      .button-primary:hover {
+        background: #5568d3;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+      }
+
+      .button-secondary {
+        background: #e9ecef;
+        color: #333;
+      }
+
+      .button-secondary:hover {
+        background: #dee2e6;
+        transform: translateY(-2px);
+      }
+
+      .icon {
+        width: 20px;
+        height: 20px;
+      }
+
+      @media (max-width: 480px) {
+        .container {
+          padding: 32px 20px;
+        }
+
+        .error-code {
+          font-size: 80px;
+        }
+
+        h1 {
+          font-size: 24px;
+        }
+
+        .buttons {
+          flex-direction: column;
+        }
+
+        .button {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="error-code">404</div>
+      <h1>Сторінку не знайдено</h1>
+      <p>На жаль, ця версія PDF Validator ще не задеплоєна або була видалена.</p>
+
+      <div class="version-info" id="version-info">
+        <strong>Запитана версія:</strong> <span id="requested-version">—</span>
+      </div>
+
+      <div class="buttons">
+        <a href="/pdf-validator/" class="button button-primary">
+          <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+            />
+          </svg>
+          На головну (Latest)
+        </a>
+
+        <button onclick="history.back()" class="button button-secondary">
+          <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+          Назад
+        </button>
+      </div>
+    </div>
+
+    <script>
+      // Detect and display requested version from URL
+      ;(function () {
+        const path = window.location.pathname
+        const versionMatch = path.match(/\/(v\d+\.\d+\.\d+)/)
+
+        if (versionMatch) {
+          const version = versionMatch[1]
+          document.getElementById('requested-version').textContent = version
+        } else {
+          document.getElementById('version-info').style.display = 'none'
+        }
+
+        // Try to fetch available versions and suggest alternatives
+        fetch('/pdf-validator/versions.json')
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.versions && data.versions.length > 0) {
+              const versionsHtml = data.versions
+                .filter((v) => !v.isLatest)
+                .slice(0, 3)
+                .map(
+                  (v) => `
+                <a href="${v.path}" class="button button-secondary" style="margin-top: 8px;">
+                  ${v.label}
+                </a>
+              `
+                )
+                .join('')
+
+              if (versionsHtml) {
+                const container = document.querySelector('.buttons')
+                const divider = document.createElement('div')
+                divider.style.width = '100%'
+                divider.style.borderTop = '1px solid #e9ecef'
+                divider.style.margin = '16px 0'
+                divider.innerHTML = '<small style="color: #999;">Доступні версії:</small>'
+                container.appendChild(divider)
+                container.insertAdjacentHTML('beforeend', versionsHtml)
+              }
+            }
+          })
+          .catch((err) => console.error('Failed to load versions:', err))
+      })()
+    </script>
+  </body>
+</html>

@@ -1,9 +1,9 @@
-name: Deploy v1.0.0
+name: Deploy Version Branch
 
 on:
   push:
     branches:
-      - v1.0.0
+      - 'v*.*.*' # Matches any branch like v1.0.0, v2.1.3, etc.
 
 permissions:
   contents: write
@@ -26,6 +26,12 @@ jobs:
           git submodule sync --recursive
           git submodule update --init --recursive
 
+      - name: Extract version from branch name
+        id: version
+        run: |
+          BRANCH_NAME=${GITHUB_REF#refs/heads/}
+          echo "version=$BRANCH_NAME" >> $GITHUB_OUTPUT
+
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
@@ -41,17 +47,12 @@ jobs:
       - name: Build
         run: npm run build
         env:
-          PUBLIC_URL: /pdf-validator/v1.0.0
+          PUBLIC_URL: /pdf-validator/${{ steps.version.outputs.version }}
 
-      - name: Deploy to GitHub Pages (v1.0.0 folder)
+      - name: Deploy to GitHub Pages (version folder)
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./build
-          destination_dir: v1.0.0
+          destination_dir: ${{ steps.version.outputs.version }}
           keep_files: true
-
-      - name: Success message
-        run: |
-          echo "✅ v1.0.0 deployed successfully!"
-          echo "📍 URL: https://victorchei.github.io/pdf-validator/v1.0.0/"

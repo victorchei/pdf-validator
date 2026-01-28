@@ -2,7 +2,7 @@
 
 Ласкаво просимо до документації мультиверсійного розгортання PDF Validator!
 
-## � Статус: v1.0.0 ВИПУЩЕНО!
+## � Статус: v1.0.0 ВИПУЩЕНО
 
 **✅ Перший реліз успішно задеплоєно** → [V1.0.0_RELEASE_STATUS.md](V1.0.0_RELEASE_STATUS.md)
 
@@ -16,7 +16,9 @@
 
 **🎉 Статус релізу** → [V1.0.0_RELEASE_STATUS.md](V1.0.0_RELEASE_STATUS.md) - Що вже зроблено
 
-**🔗 Субмодуль validator** → [SUBMODULE_VERSIONING.md](SUBMODULE_VERSIONING.md) - Синхронізація гілок!
+**� Deployment стратегія** → [DEPLOYMENT_STRATEGY.md](DEPLOYMENT_STRATEGY.md) - Workflows + фільтрація версій
+
+**�🔗 Субмодуль validator** → [SUBMODULE_VERSIONING.md](SUBMODULE_VERSIONING.md) - Синхронізація гілок!
 
 **❓ Є питання?** → [FAQ.md](FAQ.md) - Відповіді на всі питання
 
@@ -101,7 +103,24 @@
 
 ---
 
-### 4. [Покроковий гайд](STEP_BY_STEP_GUIDE.md) 🚀 IMPLEMENTATION
+### 4. [Стратегія деплою](DEPLOYMENT_STRATEGY.md) 🚀 DEPLOYMENT
+
+**Для кого**: Всі розробники (ОБОВ'ЯЗКОВО!)
+
+**Що містить**:
+
+- ✅ **Універсальний workflow** - один файл для всіх версій
+- ✅ **deployed field** - фільтрація версій без створення окремих workflows
+- ✅ Універсальна 404 сторінка
+- ✅ Автоматичне визначення версії з назви гілки
+- ✅ Checklist створення нової версії
+- ✅ Приклади використання
+
+**Час читання**: ~12 хвилин
+
+---
+
+### 5. [Покроковий гайд](STEP_BY_STEP_GUIDE.md) 🚀 IMPLEMENTATION
 
 **Для кого**: Розробники, які впроваджують систему
 
@@ -117,7 +136,7 @@
 
 ---
 
-### 5. [Повна архітектура](MULTI_PAGE_IMPLEMENTATION.md)
+### 6. [Повна архітектура](MULTI_PAGE_IMPLEMENTATION.md)
 
 **Для кого**: Технічні ліди, архітектори
 
@@ -133,7 +152,7 @@
 
 ---
 
-### 6. [Автоматичне оновлення версій](AUTO_VERSIONS_UPDATE.md)
+### 7. [Автоматичне оновлення версій](AUTO_VERSIONS_UPDATE.md)
 
 **Для кого**: DevOps, Backend розробники
 
@@ -148,7 +167,7 @@
 
 ---
 
-### 7. [Швидкий довідник](QUICK_REFERENCE_MULTIPAGE.md)
+### 8. [Швидкий довідник](QUICK_REFERENCE_MULTIPAGE.md)
 
 **Для кого**: Всі розробники
 
@@ -163,7 +182,7 @@
 
 ---
 
-### 8. [Контрольний список](IMPLEMENTATION_CHECKLIST.md)
+### 9. [Контрольний список](IMPLEMENTATION_CHECKLIST.md)
 
 **Для кого**: Project managers, Tech leads
 
@@ -178,7 +197,7 @@
 
 ---
 
-### 9. [Управління субмодулем](SUBMODULE_VERSIONING.md) 🔗 SUBMODULE
+### 10. [Управління субмодулем](SUBMODULE_VERSIONING.md) 🔗 SUBMODULE
 
 **Для кого**: Всі розробники (ОБОВ'ЯЗКОВО!)
 
