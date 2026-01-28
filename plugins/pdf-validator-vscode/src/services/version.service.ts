@@ -145,16 +145,11 @@ export class VersionService {
    * @returns Validation result with error message if invalid
    */
   validateVersionCreation(branchName: string, versionType: VersionType): { isValid: boolean; error?: string } {
-    // PATCH versions can be created from any branch
-    if (versionType === 'PATCH') {
-      return { isValid: true }
-    }
-
-    // MAJOR and MINOR can only be created from master
+    // All versions can only be created from master/main branch
     if (branchName !== 'master' && branchName !== 'main') {
       return {
         isValid: false,
-        error: `❌ ${versionType} version can only be created from master branch. Current branch: ${branchName}`,
+        error: `❌ ${versionType} version can only be created from master/main branch. Current branch: ${branchName}`,
       }
     }
 

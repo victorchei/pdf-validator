@@ -8,10 +8,21 @@ suite('Scenario Test Suite', () => {
     versionService = new VersionService('/test')
   })
 
-  suite('Scenario 1: Create PATCH from feature branch', () => {
-    test('should allow PATCH version creation from feature branch', () => {
-      const validation = versionService.validateVersionCreation('feature/fix-bug', 'PATCH')
+  suite('Scenario 1: Create PATCH from master branch', () => {
+    test('should allow PATCH version creation from master branch', () => {
+      const validation = versionService.validateVersionCreation('master', 'PATCH')
       assert.strictEqual(validation.isValid, true)
+    })
+
+    test('should allow PATCH version creation from main branch', () => {
+      const validation = versionService.validateVersionCreation('main', 'PATCH')
+      assert.strictEqual(validation.isValid, true)
+    })
+
+    test('should reject PATCH version creation from feature branch', () => {
+      const validation = versionService.validateVersionCreation('feature/fix-bug', 'PATCH')
+      assert.strictEqual(validation.isValid, false)
+      assert.ok(validation.error?.includes('master/main'))
     })
 
     test('should calculate correct PATCH version', () => {
