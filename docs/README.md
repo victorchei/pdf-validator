@@ -49,6 +49,49 @@ npm run build
 - **React Hook Form** — управління формами
 - **Jest** — тестування
 
+## 🎨 Дизайн та UI/UX
+
+- [Система кольорів](COLOR-SYSTEM.md) - Централізовані CSS змінні
+- [Звіт з доступності](ACCESSIBILITY-REPORT.md) - WCAG контрастність
+- [Бренд-бук](brand/BRAND-BOOK.md) - Офіційні бренд-гайдлайни
+
+## 🚀 Мультиверсійне розгортання (NEW!)
+
+### 📂 Повна документація
+
+**[/docs/version-management/](version-management/)** - Все про систему управління версіями
+
+### Швидкий старт
+
+- 🎯 [Покроковий гайд](version-management/STEP_BY_STEP_GUIDE.md) - START HERE!
+- 📖 [Повна архітектура](version-management/MULTI_PAGE_IMPLEMENTATION.md)
+- 🔄 [Автоматичне оновлення](version-management/AUTO_VERSIONS_UPDATE.md)
+- ⚡ [Швидка довідка](version-management/QUICK_REFERENCE_MULTIPAGE.md)
+- ☑️ [Контрольний список](version-management/IMPLEMENTATION_CHECKLIST.md)
+
+### Ключові можливості
+
+- ✅ Семантичне версіонування (v1.0.0, v1.1.0, v2.0.0)
+- ✅ Автоматична синхронізація списку версій
+- ✅ VersionSelector з dropdown
+- ✅ Alert про застарілу версію
+- ✅ CI/CD через GitHub Actions
+- ✅ Локальне тестування перед deployment
+
+### URL структура
+
+- Master: `https://victorchei.github.io/pdf-validator/`
+- v0: `https://victorchei.github.io/pdf-validator/v0/`
+- v1.1.0: `https://victorchei.github.io/pdf-validator/v1.1.0/`
+
+## 📝 Міграції
+
+- [11 - Міграція V1: MUI + Brand](11-MIGRATION-V1-MUI-BRAND.md)
+- [12 - Міграція V2: Custom CSS](12-MIGRATION-V2-CUSTOM-CSS.md)
+- [13 - Міграція V3: Bootstrap](13-MIGRATION-V3-BOOTSTRAP.md)
+- [14 - Порівняння версій](14-VERSIONS-COMPARISON.md)
+- [Міграція централізованих кольорів](MIGRATION-CENTRALIZED-COLORS.md)
+
 ## 📞 Контакти та підтримка
 
 Документація регулярно оновлюється. Для питань та пропозицій звертайтесь до команди розробників.
