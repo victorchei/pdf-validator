@@ -5,8 +5,8 @@
  * This file is used by the VersionSelector component to display available versions
  */
 
-const fs = require('fs');
-const path = require('path');
+const fs = require('fs')
+const path = require('path')
 
 // Configuration for all versions
 const VERSIONS_CONFIG = [
@@ -40,47 +40,43 @@ const VERSIONS_CONFIG = [
     status: 'beta',
     releaseDate: '2026-01-15',
   },
-];
+]
 
 /**
  * Generate versions.json file
  */
 function generateVersionsFile() {
-  const outputDir = path.join(__dirname, '..', 'public');
-  const outputPath = path.join(outputDir, 'versions.json');
+  const outputDir = path.join(__dirname, '..', 'public')
+  const outputPath = path.join(outputDir, 'versions.json')
 
   // Ensure public directory exists
   if (!fs.existsSync(outputDir)) {
-    fs.mkdirSync(outputDir, { recursive: true });
+    fs.mkdirSync(outputDir, { recursive: true })
   }
 
   // Create versions object
   const versionsData = {
     versions: VERSIONS_CONFIG,
     generated: new Date().toISOString(),
-  };
+  }
 
   // Write to file
-  fs.writeFileSync(
-    outputPath,
-    JSON.stringify(versionsData, null, 2),
-    'utf8'
-  );
+  fs.writeFileSync(outputPath, JSON.stringify(versionsData, null, 2), 'utf8')
 
-  console.log('✅ Generated versions.json');
-  console.log(`📍 Location: ${outputPath}`);
-  console.log(`📋 Versions: ${VERSIONS_CONFIG.length}`);
-  
-  VERSIONS_CONFIG.forEach(version => {
-    const badge = version.isLatest ? '🌟' : version.status === 'beta' ? '🧪' : '📦';
-    console.log(`   ${badge} ${version.version} - ${version.label}`);
-  });
+  console.log('✅ Generated versions.json')
+  console.log(`📍 Location: ${outputPath}`)
+  console.log(`📋 Versions: ${VERSIONS_CONFIG.length}`)
+
+  VERSIONS_CONFIG.forEach((version) => {
+    const badge = version.isLatest ? '🌟' : version.status === 'beta' ? '🧪' : '📦'
+    console.log(`   ${badge} ${version.version} - ${version.label}`)
+  })
 }
 
 // Run the generator
 try {
-  generateVersionsFile();
+  generateVersionsFile()
 } catch (error) {
-  console.error('❌ Error generating versions.json:', error);
-  process.exit(1);
+  console.error('❌ Error generating versions.json:', error)
+  process.exit(1)
 }
