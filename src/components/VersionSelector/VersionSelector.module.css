@@ -12,6 +12,12 @@
   background-color: white;
 }
 
+/* Ensure smooth scrolling in dropdown */
+.select .MuiMenu-paper {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
 .menuItem {
   display: flex;
   align-items: center;
