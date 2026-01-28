@@ -162,6 +162,21 @@ export class VersionService {
   }
 
   /**
+   * Detect the main branch name (master or main) for a given repo
+   */
+  async detectMainBranch(repoPath: string = this.workspaceRoot): Promise<string> {
+    try {
+      const { stdout } = await execAsync('git branch --list main master', { cwd: repoPath })
+      const branches = stdout.trim().split('\n').map((b) => b.replace(/^\*?\s+/, '').trim())
+      if (branches.includes('main')) return 'main'
+      if (branches.includes('master')) return 'master'
+      return 'main'
+    } catch {
+      return 'main'
+    }
+  }
+
+  /**
    * Check if Git working directory is clean
    * @returns true if no uncommitted changes
    */
@@ -219,16 +234,25 @@ export class VersionService {
       // Update package.json in main repo
       await this.updatePackageJsonVersion(newVersion)
 
-      // Update package.json in submodule
+      // Update submodule
       const submodulePath = path.join(this.workspaceRoot, 'src', 'validator')
-      const hasSubmodule = fs.existsSync(submodulePath)
+      const hasSubmodule = fs.existsSync(path.join(submodulePath, '.git')) || fs.existsSync(submodulePath)
       if (hasSubmodule) {
-        await this.updatePackageJsonVersion(newVersion, submodulePath)
+        // Detect submodule main branch (main or master)
+        const submoduleMainBranch = await this.detectMainBranch(submodulePath)
 
-        // Create branch in submodule
+        // Checkout main branch in submodule first
+        await execAsync(`git checkout ${submoduleMainBranch}`, {
+          cwd: submodulePath,
+        })
+
+        // Create version branch in submodule from main branch
         await execAsync(`git checkout -b ${newVersion}`, {
           cwd: submodulePath,
         })
+
+        // Update package.json in submodule
+        await this.updatePackageJsonVersion(newVersion, submodulePath)
 
         // Commit in submodule
         await execAsync(`git add package.json && git commit -m "chore: bump version to ${newVersion}"`, {
