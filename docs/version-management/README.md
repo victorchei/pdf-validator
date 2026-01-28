@@ -2,9 +2,19 @@
 
 Ласкаво просимо до документації мультиверсійного розгортання PDF Validator!
 
+## � Статус: v1.0.0 ВИПУЩЕНО!
+
+**✅ Перший реліз успішно задеплоєно** → [V1.0.0_RELEASE_STATUS.md](V1.0.0_RELEASE_STATUS.md)
+
+**VersionSelector працює:** В master і v1.0.0 доступний dropdown з вибором версій ✅
+
+---
+
 ## 🎯 Швидкий старт
 
 **🎬 ПОЧАТИ ЗВІДСИ!** → [INITIAL_SETUP.md](INITIAL_SETUP.md) - З якої гілки почати? Куди комітити?
+
+**🎉 Статус релізу** → [V1.0.0_RELEASE_STATUS.md](V1.0.0_RELEASE_STATUS.md) - Що вже зроблено
 
 **🔗 Субмодуль validator** → [SUBMODULE_VERSIONING.md](SUBMODULE_VERSIONING.md) - Синхронізація гілок!
 
