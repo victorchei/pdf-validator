@@ -12,6 +12,7 @@ import ControlledTreeView from './ControlledTreeView'
 import { Feedback } from './Feedback'
 import { Settings } from './Settings'
 import { TopInfo } from './TopInfo'
+import { VersionSelector } from './VersionSelector'
 GlobalWorkerOptions.workerSrc = '//cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.js'
 
 export default function App() {
@@ -81,7 +82,10 @@ export default function App() {
       <div className={styles.container}>
         <div className={styles.mainContent}>
           <div className={styles.section}>
-            <TopInfo />
+            <Stack direction="row" justifyContent="space-between" alignItems="center">
+              <TopInfo />
+              <VersionSelector />
+            </Stack>
           </div>
           <div className={styles.section}>
             <Settings isMasterDefault={isMasterDefault} config={config} setConfig={setConfig} />
