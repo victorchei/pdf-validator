@@ -1,0 +1,50 @@
+{
+  "versions": [
+    {
+      "id": "latest",
+      "version": "1.0.1",
+      "label": "Поточна версія (1.0.1)",
+      "path": "/pdf-validator/",
+      "branch": "master",
+      "isLatest": true,
+      "deployed": true,
+      "status": "stable",
+      "releaseDate": "2026-01-28"
+    },
+    {
+      "id": "v1.0.0",
+      "version": "1.0.0",
+      "label": "Версія 1.0.0",
+      "path": "/pdf-validator/v1.0.0/",
+      "branch": "v1.0.0",
+      "isLatest": false,
+      "deployed": true,
+      "status": "stable",
+      "releaseDate": "2026-01-28"
+    },
+    {
+      "id": "v1.0.1",
+      "version": "1.0.1",
+      "label": "Версія 1.0.1",
+      "path": "/pdf-validator/v1.0.1/",
+      "branch": "v1.0.1",
+      "isLatest": false,
+      "deployed": true,
+      "status": "stable",
+      "releaseDate": "2026-01-28",
+      "changelog": "/pdf-validator/v1.0.1/CHANGELOG.md"
+    },
+    {
+      "id": "v0.2.0",
+      "version": "0.2.0",
+      "label": "Версія 0.2.0 (Beta)",
+      "path": "/pdf-validator/v0.2.0/",
+      "branch": "v0",
+      "isLatest": false,
+      "deployed": false,
+      "status": "beta",
+      "releaseDate": "2026-01-15"
+    }
+  ],
+  "generated": "2026-01-28T01:11:42.981Z"
+}
