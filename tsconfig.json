@@ -19,5 +19,6 @@
     "noUnusedLocals": true,
     "resolveJsonModule": true,
     "esModuleInterop": true
-  }
+  },
+  "exclude": ["node_modules", "build", "plugins"]
 }
